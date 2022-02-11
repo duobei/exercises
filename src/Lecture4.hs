@@ -109,6 +109,7 @@ import Text.Read (readMaybe)
 import Data.Maybe (mapMaybe, listToMaybe)
 import System.Environment (getArgs)
 import Data.List (foldl')
+import Control.Monad
 
 import Lecture2 (dropSpaces)
 
@@ -374,7 +375,7 @@ Use functions 'readFile' and 'putStrLn' here.
 -}
 
 printProductStats :: FilePath -> IO ()
-printProductStats = \x -> readFile x >>= putStrLn . calculateStats
+printProductStats = readFile >=> putStrLn . calculateStats
 
 {-
 Okay, I lied. This is not the last thing. Now, we need to wrap
