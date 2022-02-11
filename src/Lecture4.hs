@@ -82,6 +82,7 @@ Exercises for Lecture 4 also contain tests and you can run them as usual.
 -}
 
 {-# LANGUAGE StrictData #-}
+{-# LANGUAGE BangPatterns #-}
 
 module Lecture4
     ( -- * Main running function
@@ -233,12 +234,17 @@ instance Semigroup Stats where
     , statsTotalSum       = statsTotalSum x <> statsTotalSum y
     , statsAbsoluteMax    = statsAbsoluteMax x <> statsAbsoluteMax y
     , statsAbsoluteMin    = statsAbsoluteMin x <> statsAbsoluteMin y
-    , statsSellMax        = statsSellMax x <> statsSellMax y
-    , statsSellMin        = statsSellMin x <> statsSellMin y
-    , statsBuyMax         = statsBuyMax x <> statsBuyMax y
-    , statsBuyMin         = statsBuyMin x <> statsBuyMin y
+    , statsSellMax        = statsSellMax x `combineMaybe` statsSellMax y
+    , statsSellMin        = statsSellMin x `combineMaybe` statsSellMin y
+    , statsBuyMax         = statsBuyMax x `combineMaybe` statsBuyMax y
+    , statsBuyMin         = statsBuyMin x `combineMaybe` statsBuyMin y
     , statsLongest        = statsLongest x <> statsLongest y
     }
+    where
+      combineMaybe a b =
+        case a <> b of
+          Nothing -> Nothing
+          Just !z -> Just z
 
 {-
 The reason for having the 'Stats' data type is to be able to convert
