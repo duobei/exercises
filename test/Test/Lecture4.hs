@@ -90,7 +90,7 @@ lecture4Spec = describe "Lecture 4" $ do
             }
 
     let stringStats =
-            [ "Total positions:       : 3"
+            [ "Total positions        : 3"
             , "Total final balance    : -15"
             , "Biggest absolute cost  : 50"
             , "Smallest absolute cost : 10"
@@ -139,10 +139,10 @@ genStats = Stats
     <*> (Sum <$> genInt)
     <*> (Max <$> genInt)
     <*> (Min <$> genInt)
-    <*> (Gen.maybe $ Max <$> genInt)
-    <*> (Gen.maybe $ Min <$> genInt)
-    <*> (Gen.maybe $ Max <$> genInt)
-    <*> (Gen.maybe $ Min <$> genInt)
+    <*> Gen.maybe (Max <$> genInt)
+    <*> Gen.maybe (Min <$> genInt)
+    <*> Gen.maybe (Max <$> genInt)
+    <*> Gen.maybe (Min <$> genInt)
     <*> genMaxLen
   where
     genInt :: Gen Int
